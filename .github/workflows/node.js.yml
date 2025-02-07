@@ -1,0 +1,19 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+    
+     - name: Build Docker image for app
+       run: |
+          docker build -t my-app:latest -f /home/mnagaraju/actions-runner/Testproject-inno/zephus-dockerfile /home/mnagaraju/actions-runner/Testproject-inno
+
+     - name: Build Docker image for node
+       run: |
+          docker build -t my-node:latest -f /home/mnagaraju/actions-runner/Testproject-inno/zephus-dokerfile-optimize /home/mnagaraju/actions-runner/Testproject-inno/

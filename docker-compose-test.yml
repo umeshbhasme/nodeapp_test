@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    volumes:
+      - '/home/mnagaraju/actions-runner/Testproject-inno/credentials.txt:/app/config/credentials.txt'
+    environment:
+      - NODE_ENV=test
+    restart: always
+    ports:
+      - "4000:4000"
+    command: [ "node", "index.js" ]

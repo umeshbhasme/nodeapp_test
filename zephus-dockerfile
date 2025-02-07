@@ -1,0 +1,17 @@
+FROM node:16.17-alpine
+
+ARG FONT_AWESOME_TOKEN
+ENV FONT_AWESOME_AUTH_TOKEN=$FONT_AWESOME_TOKEN
+
+RUN apk update && apk upgrade --available
+
+RUN apk add --no-cache git && \
+  npm install pm2 -g
+
+WORKDIR /app
+
+COPY . ./
+RUN npm ci 
+#npm run build
+
+CMD ["pm2-runtime", "start", "npm", "--", "start"]

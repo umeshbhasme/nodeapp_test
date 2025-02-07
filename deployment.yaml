@@ -12,10 +12,14 @@ spec:
   template:
     metadata:
       labels:
-        app: nodeapp 
+        app: nodeapp
     spec:
       containers:
       - name: nodeserver
-        image: thetips4you/nodeapp:latest
+        image: us-central1-docker.pkg.dev/goldengate-1/demogcr-ar/node:latest
         ports:
         - containerPort: 3000
+        imagePullPolicy: Always
+  strategy:
+    type: RollingUpdate
+

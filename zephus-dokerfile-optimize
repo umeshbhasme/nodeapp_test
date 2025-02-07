@@ -1,0 +1,24 @@
+FROM node:16.17-alpine
+
+ARG FONT_AWESOME_TOKEN
+ENV FONT_AWESOME_AUTH_TOKEN=$FONT_AWESOME_TOKEN
+
+# Update, upgrade, and install necessary packages in one layer
+RUN apk add --no-cache git && \
+    npm install -g pm2 && \
+    npm cache clean --force
+
+WORKDIR /app
+
+# Copy only package.json and package-lock.json first to leverage Docker cache for dependencies
+COPY package*.json ./
+
+# Install project dependencies
+RUN npm ci && \
+    npm cache clean --force
+
+# Copy the remaining application files
+COPY . .
+
+# Start the application using pm2-runtime
+CMD ["pm2-runtime", "start", "npm", "--", "start"]
